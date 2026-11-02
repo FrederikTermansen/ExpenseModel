@@ -9,7 +9,7 @@ namespace SpendSmart.Models
         public decimal Value { get; set; }
         
         //? Makes Description nullable
-        [Required] //Following guide don't understand why i want it required yet
+        [Required]
         public string? Description { get; set; }
     }
 }
