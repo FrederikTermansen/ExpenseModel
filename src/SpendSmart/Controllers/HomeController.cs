@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using ExpenseModel.Core;
 using Microsoft.AspNetCore.Mvc;
 using SpendSmart.Models;
 
@@ -8,9 +9,12 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    private readonly ExpenseModelDbContext _context;
+
+    public HomeController(ILogger<HomeController> logger, ExpenseModelDbContext context)
     {
         _logger = logger;
+        _context = context;
     }
 
     public IActionResult Index()
@@ -20,7 +24,8 @@ public class HomeController : Controller
 
     public IActionResult Expenses()
     {
-        return View();
+        var allExpenses = _context.Expenses.ToList();
+        return View(allExpenses);
     }
 
     public IActionResult CreateEditExpense()
@@ -30,7 +35,9 @@ public class HomeController : Controller
 
     public IActionResult CreateEditExpenseForm(Expense model)
     {
-        //TODO safe model to database
+        _context.Expenses.Add(model);
+        _context.SaveChanges();
+
         return RedirectToAction("Expenses");
     }
 

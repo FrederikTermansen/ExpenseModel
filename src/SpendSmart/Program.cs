@@ -1,7 +1,14 @@
+using ExpenseModel.Core;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<ExpenseModelDbContext>(options =>
+    options.UseInMemoryDatabase("ExpenseModelDb")
+);
 
 var app = builder.Build();
 
